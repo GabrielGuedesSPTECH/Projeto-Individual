@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!--INÍCIO DO HEADER-->
+    <div class="header">
+        <div class="container">
+            <div class="logo">
+            </div>
+            <h3>Pórtico Pintado</h3>
+            <div class="nav-bar">
+                <ul>
+                    <li>Home</li>
+                    <li>Sobre</li>
+                    <li>Quiz</li>
+                    <input type="checkbox" id="darkmode-botao">
+                    <label for="darkmode-botao"></label>
+                </ul>
+            </div>
+            <button class="botao-login">Login</button>
+        </div>
+    </div>
+    <!--FIM DO HEADER-->
+    <div class="body">
+        <div class="imagem-body">
+            <div class="titulo-estoicismo">
+                <h2>O que é o </h2>
+                <h1>ESTOICISMO</h1>
+            </div>
+            <div class="paragrafo-estoicismo">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ultricies massa libero, sed
+                    tincidunt dui finibus et. In id tortor est. Quisque a lacus quis odio dictum imperdiet. Mauris vel
+                    vestibulum eros, in lacinia velit. Sed in mi venenatis, varius risus ac, lacinia nunc. Aliquam
+                    facilisis viverra lorem, id gravida lorem finibus sit amet. Phasellus eleifend nulla tortor, non
+                    ornare neque placerat et. In tempus rutrum risus, vel dignissim velit mollis id. Nam at velit
+                    consequat metus efficitur blandit a quis lacus. Praesent mollis ligula at pulvinar feugiat. Etiam
+                    rutrum id risus in mollis. Sed dapibus in sem at faucibus.</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+
+    var navbar = document.querySelector(".header .container");
+
+    function mudarCor() {
+        navbar.classList.toggle("active", scrollY > 120);
+    }
+    window.addEventListener("scroll", mudarCor)
+    const html = document.querySelector('html')
+    const darkmode = document.querySelector('#darkmode-botao')
+    darkmode.addEventListener('change', function(){
+        html.classList.toggle('dark-mode')
+    })
+</script>

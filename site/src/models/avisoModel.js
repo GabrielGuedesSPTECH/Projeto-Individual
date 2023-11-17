@@ -10,7 +10,6 @@ function listar() {
             a.fk_usuario,
             u.id AS idUsuario,
             u.nome,
-            u.cpf,
             u.email,
             u.senha
         FROM aviso a
@@ -31,7 +30,6 @@ function pesquisarDescricao(texto) {
             a.fk_usuario,
             u.id AS idUsuario,
             u.nome,
-            u.cpf,
             u.email,
             u.senha
         FROM aviso a
@@ -53,7 +51,6 @@ function listarPorUsuario(idUsuario) {
             a.fk_usuario,
             u.id AS idUsuario,
             u.nome,
-            u.cpf,
             u.email,
             u.senha
         FROM aviso a

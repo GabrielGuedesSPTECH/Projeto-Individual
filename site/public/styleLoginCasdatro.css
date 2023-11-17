@@ -12,8 +12,11 @@
     }
 }
 
+ a {
+    text-decoration: none;
+ }
 :root {
-    --header-logoimg: url("/home/gabriel/PERSONAL/Projeto-Individual/web-data-viz/site/public/assets/imgs/stoa_poikile1.png");
+    --header-logoimg: url(assets/imgs/stoa_poikile1.png);
     --cor-rockblue: #94a3b8;
     --cor-rockblue-medio: #475569;
     --cor-rockblue-escuro: #1e293b;
@@ -33,7 +36,7 @@
 }
 
 .dark-mode:root {
-    --header-logoimg: url("/home/gabriel/PERSONAL/Projeto-Individual/web-data-viz/site/public/assets/imgs/stoa_poikile1.png");
+    --header-logoimg: url(assets/imgs/stoa_poikile.webp);
     --cor-rockblue: #94a3b8;
     --cor-rockblue-medio: #475569;
     --cor-rockblue-escuro: #1e293b;

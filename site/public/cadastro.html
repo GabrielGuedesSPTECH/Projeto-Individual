@@ -10,7 +10,7 @@
     <script src="./js/sessao.js"></script>
 </head>
 
-<body onload="listar()">
+<body>
     <div class="header">
         <div class="container">
             <div class="logo">
@@ -51,14 +51,14 @@
                 <h2>Confirmar Senha</h2>
                 <input type="password" id="confirmacao_senha_input" placeholder="******" class="neutro3">
                 <h2>Idade (opcional)</h2>
-                <input type="text" id="idade_input" class="neutro4" placeholder="0 a 120">
+                <input type="text" id="idade_input" class="neutro4" placeholder="ANO/MÊS/DIA">
                 <button class="botao" onclick="entrar()">Cadastro</button>
                 <div class="rodape-cadastro" id="rodape">
                     <p> Já tem uma conta?<br>
                         entre <a href="login.html">aqui</a></p>
                 </div>
                 <div id="div_aguardar" class="loading-div">
-                    <img src="assets/imgs/Vp3R.gif" id="loading-gif">
+                    <!-- <img src="assets/imgs/colocarGif" id="loading-gif"> -->
                 </div>
             </div>
         </div>
@@ -150,7 +150,7 @@
                 nomeServer: nomeVar,
                 emailServer: emailVar,
                 senhaServer: senhaVar,
-        
+                idadeServer: idadeVar,
             }),
         })
             .then(function (resposta) {
@@ -178,22 +178,6 @@
             });
 
         return false;
-    }
-
-    function listar() {
-        fetch("/empresas/listar", {
-            method: "GET",
-        })
-            .then(function (resposta) {
-                resposta.json().then((empresas) => {
-                    empresas.forEach((empresa) => {
-                        listaEmpresas.innerHTML += `<option value='${empresa.id}'>${empresa.cnpj}</option>`;
-                    });
-                });
-            })
-            .catch(function (resposta) {
-                console.log(`#ERRO: ${resposta}`);
-            });
     }
 
     function sumirMensagem() {

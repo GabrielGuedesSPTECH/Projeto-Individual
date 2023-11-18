@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login - Pórtico Pintado</title>
     <link rel="stylesheet" href="styleLoginCasdatro.css">
     <link href="https://api.fontshare.com/v2/css?f[]=general-sans@500,600,400,700&display=swap" rel="stylesheet">
+    <script src="./js/sessao.js"></script>
 </head>
 
 <body>
@@ -98,7 +99,7 @@
             cardErro.style.display = "none"
             cardErro2.style.display = "none"
             input2.classList.toggle("invalido2");
-        } else if(emailVar == "") {
+        } else if (emailVar == "") {
             cardErro.style.display = "block"
             mensagem_erro.innerHTML = "Preencha seu E-mail";
             cardErro1.style.display = "none"
@@ -107,11 +108,58 @@
         }
         else {
             setInterval(sumirMensagem, 5000)
-
         }
+        console.log("FORM LOGIN: ", emailVar);
+        console.log("FORM SENHA: ", senhaVar);
+
+        fetch("/usuarios/autenticar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                emailServer: emailVar,
+                senhaServer: senhaVar
+            })
+        }).then(function (resposta) {
+            console.log("ESTOU NO THEN DO entrar()!")
+
+            if (resposta.ok) {
+                console.log(resposta);
+
+                resposta.json().then(json => {
+                    console.log(json);
+                    console.log(JSON.stringify(json));
+                    sessionStorage.EMAIL_USUARIO = json.email;
+                    sessionStorage.NOME_USUARIO = json.nome;
+                    sessionStorage.IDADE_USUARIO = json.idade;
+                    sessionStorage.ID_USUARIO = json.id;
+
+                    setTimeout(function () {
+                        window.location = "index.html";
+                    }, 2000); // apenas para exibir o loading
+
+                });
+
+            } else {
+
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    console.error(texto);
+                    finalizarAguardar(texto);
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+        })
+
+        return false;
     }
 
     function sumirMensagem() {
         cardErro.style.display = "none"
     }
+
 </script>

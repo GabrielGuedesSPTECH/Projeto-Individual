@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="shortcut icon" href="../assets/icon/favicon2.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="quiz.css">
+    <script src="quiz.js"></script>
+    <script src="js/sessao.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body onload="proximoQuiz()"><!-- onload="validarSessao()" -->
+    <div class="header">
+        <div class="container">
+            <div class="logo">
+            </div>
+            <h3>Pórtico Pintado</h3>
+            <div class="nav-bar">
+                <ul>
+                    <a href="">
+                        <li>Home</li>
+                    </a>
+                    <a href="">
+                        <li>Blog</li>
+                    </a>
+                    <a href="">
+                        <li>Sobre</li>
+                    </a>
+                    <div class="btn-logout" onclick="limparSessao()">
+                        <h3>Sair</h3>
+                    </div>
+                    <input type="checkbox" id="darkmode-botao">
+                    <label for="darkmode-botao"></label>
+                </ul>
+            </div>
+        </div>
+        <div class="quiz-container">
+            <div class="menu-quiz">
+                <div class="descricao">
+                    <h3>Quiz Prokopton</h3><br>
+                    Bem vindo!
+                    <p>
+                        Vamos estudar os conceitos, frases e referencias?<br>
+                        Responda esse quiz e descubra seu nivel de conhecimento estoico
+                    </p><br>
+                    <p>
+                        Jogue tambem nosso quiz de Frases clicando <a href="#">aqui</a>
+                    </p>
+                </div>
+                <div class="recorde">
+                    <div class="hello">
+                        <h3>Olá, <span id="p_usuario"></span>!</h3>
+                    </div><br>
+                    <div id="pontos">
+                        Seu recorde é de <span id="span_pontos">999 pontos</span>
+                        equivalente a 99% do quiz,
+
+                        <span id="span_pontos_restantes">falta 1 ponto</span> para você
+                        completar 100% do quiz
+                    </div><br>
+                    <a href="">Configurações </a>
+                </div>
+            </div>
+            <div class="card-quiz">
+                <h4 id="questaoAtual">Questão 1</h4>
+                <h2 id="perguntaH2">PERGUNTA</h3>
+                    <div class="botoes">
+                        <button id="a" class="botao">A</button>
+                        <button id="b" class="botao">B</button>
+                    </div>
+                    <div class="botoes">
+                        <button id="c" class="botao">C</button>
+                        <button id="d" class="botao">D</button>
+                    </div>
+                    <div class="portico">
+                        Pórtico Pintado 2023
+                    </div>
+            </div>
+        </div>
+
+</html>
+
+<script>
+
+    const respostaA = document.getElementById('a')
+    const respostaB = document.getElementById('b')
+    const respostaC = document.getElementById('c')
+    const respostaD = document.getElementById('d')
+    const botoes = document.getElementsByClassName('botao')
+    var quizAtual = 0;
+    var respostaAtual = undefined;
+    var acertos = 0;
+    var minutos = 0;
+    var segundos = 0;
+    var comecarTimer = 0;
+
+    function proximoQuiz() {
+        var perguntaAtual = quizDados[quizAtual]
+        questaoAtual.innerHTML = `Quiz: ${quizAtual + 1}/${quizDados.length}`;
+        perguntaH2.innerHTML = perguntaAtual.pergunta;
+        respostaA.innerHTML = perguntaAtual.a;
+        respostaB.innerHTML = perguntaAtual.b;
+        respostaC.innerHTML = perguntaAtual.c;
+        respostaD.innerHTML = perguntaAtual.d;
+        console.log("Posição atual: " + quizAtual)
+    }
+
+    respostaA.addEventListener('click', () => {
+        respostaAtual = respostaA.id;
+        verificar();
+    })
+    respostaB.addEventListener('click', () => {
+        respostaAtual = respostaB.id;
+        verificar()
+    })
+    respostaC.addEventListener('click', () => {
+        respostaAtual = respostaC.id;
+        verificar()
+    })
+    respostaD.addEventListener('click', () => {
+        respostaAtual = respostaD.id;
+        verificar()
+    })
+
+
+    function verificar() {
+        if (quizAtual < quizDados.length - 1) {
+            if (respostaAtual == quizDados[quizAtual].respostaCorreta) {
+                acertos++
+                console.log("Acertos: " + acertos)
+                respostaAtual = undefined;
+            }
+            quizAtual++
+            proximoQuiz()
+
+        } else {
+            if (respostaAtual == quizDados[quizAtual].respostaCorreta) {
+                acertos++
+            }
+            var porcentagem = (acertos / quizDados.length) * 100;
+            var porcentagemRestante = 100 - porcentagem;
+            pontos.innerHTML =
+                `
+            Seu recorde é de <span id="span_pontos">${acertos} pontos</span>
+            equivalente a ${porcentagem}% do quiz,
+            <span id="span_pontos_restantes">faltam ${porcentagemRestante}%</span> para você
+            completar o quiz  
+            `
+
+            // finalizarTimer()
+            // setTimeout(() => {
+            //     alert("Acertos: " + acertos)
+            // }, 2500);
+            // alert('fim')
+        }
+    }
+
+    // function timer() {
+    //     segundos++;
+    //     if (segundos == 60) {
+    //         segundos = 0;
+    //         minutos += 1;
+    //     }
+    // }
+
+
+    var comecarTimer = setInterval(timer, 1000)
+
+
+
+    setInterval(() => {
+        console.log("Minutos: " + minutos, "Segundos: " + segundos);
+    }, 1000);
+
+    // function finalizarTimer() {
+    //     clearInterval(comecarTimer);
+    // }
+</script>

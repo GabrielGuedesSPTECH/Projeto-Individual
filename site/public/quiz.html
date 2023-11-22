@@ -33,9 +33,11 @@
                     <a href="">
                         <li>Sobre</li>
                     </a>
-                    <div class="btn-logout" onclick="limparSessao()">
-                        <h3>Sair</h3>
-                    </div>
+                    <a href="#">
+                        <div class="btn-logout" onclick="limparSessao()">
+                            Sair
+                        </div>
+                    </a>
                     <input type="checkbox" id="darkmode-botao">
                     <label for="darkmode-botao"></label>
                 </ul>
@@ -51,7 +53,7 @@
                         Responda esse quiz e descubra seu nivel de conhecimento estoico
                     </p><br>
                     <p>
-                        Jogue tambem nosso quiz de Frases clicando <a href="#">aqui</a>
+                        Jogue tambem nosso quiz de Frases clicando <a href="#" id="novoQuiz">aqui</a>
                     </p>
                 </div>
                 <div class="recorde">
@@ -88,6 +90,13 @@
 </html>
 
 <script>
+
+    var html = document.querySelector('html')
+    var darkmode = document.querySelector('#darkmode-botao')
+
+    darkmode.addEventListener('change', function () {
+        html.classList.toggle('dark-mode')
+    })
 
     const respostaA = document.getElementById('a')
     const respostaB = document.getElementById('b')

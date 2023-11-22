@@ -13,24 +13,29 @@ body {
     padding: 0;
     font-family: 'General Sans', sans-serif;
     background-color: var(--cor-fundo);
+    transition: .6s;
 }
 
 button {
     display: inline-block;
     padding: 0;
     border: none;
-    background: green;
+    background: #e9e9e9;
     cursor: pointer;
     width: 180px;
     font-weight: 600;
+    color: #FFF;
+    background-color: var(--cor--negrito);
     letter-spacing: 1px;
     height: 60px;
     font-size: 20px;
     border-radius: 20px;
+    transition: .6s;
 }
 
 a {
-    color: var(--cor--link);
+    color: var(--cor-letra);
+    font-weight: 600;
     text-decoration: none;
 }
 
@@ -51,7 +56,9 @@ strong {
     --header-h3cor: rgba(25, 30, 78, 0.90);
     --header-corbtn: #070a13;
     --navbar-corletra: rgba(25, 30, 78, 0.90);
-    --cor-letra: var(--cor-rockblue-escuro);
+    --cor-container: #1e293b;
+    --cor-card: #94A3B8;
+    --cor-letra-quiz: #1E293B; 
 }
 
 /*  negrito rgb(225, 29, 72) */
@@ -70,7 +77,9 @@ strong {
     --header-corbtn: #E6E6f5;
     --navbar-corletra: rgba(255, 255, 255, 0.90);
     --cor-letra: var(--cor-rockblue);
-    --cor-container: var(--cor-rockblue-escuro);
+    --cor-container: #94A3B8;
+    --cor-card: #475569;
+    --cor-letra-quiz: #FFF;
 }
 
 /* INÍCIO DO HEADER*/
@@ -80,18 +89,17 @@ strong {
     height: 100px;
     background-size: cover;
     cursor: pointer;
-    transition: .4s;
+    transition: .6s;
 }
 
 .header .container {
     display: flex;
     align-items: center;
     justify-content: center;
-
     z-index: 3;
     background: var(--cor--primaria);
     width: 100vw;
-    transition: all .6s ease;
+    transition: .6s;
     background-color: var(--cor-fundo);
 }
 
@@ -99,37 +107,16 @@ strong {
 .header .active {
     opacity: 0.95;
     filter: blur(0.5px);
-    transition: all .8s ease;
+    transition:  .6s;
     filter: drop-shadow(0px 0px 10px black);
 }
 
 .container h3 {
     color: var(--header-h3cor);
     font-size: 20px;
-    transition: all .6s ease;
+    transition:  .6s;
 }
 
-
-.header .botao-login {
-    border-radius: 15px;
-    background-color: var(--cor--negrito);
-    font-weight: 900;
-    width: 102px;
-    height: 48px;
-    color: #FFF;
-    font-size: 17px;
-    transition: all .6s ease;
-    box-shadow: var(--cor-sombra-botao);
-
-    /* HOVER DO BOTÃO DE LOGIN */
-    &:hover {
-        transform: translateY(-3px);
-        box-shadow: var(--cor-botao-hover);
-
-        cursor: pointer;
-        transition: all .6s ease;
-    }
-}
 
 /* Switch de dark/light mode */
 label {
@@ -179,7 +166,7 @@ label:after {
 }
 
 .nav-bar ul {
-
+    transition: .6s;
     color: var(--navbar-corletra);
     font-weight: 500;
     align-items: center;
@@ -190,7 +177,7 @@ label:after {
 
 .quiz-container {
     position: relative;
-    background-color: red;
+    background-color: var(--cor-container);
     margin-top: -10px;
     margin-left: 150px;
     border-radius: 25px;
@@ -200,15 +187,18 @@ label:after {
     display: flex;
     align-items: center;
     justify-content: end;
+    color: var(--cor-letra-quiz);
+    transition: .6s;
     & .portico {
         position: absolute;
         right: -12px;
         margin-top: 80px;
         font-weight: 600;
         font-size: 20px;
+        transition: .6s;
     }
     & .card-quiz {
-        background-color: orangered;
+        background-color: var(--cor-card);
         width: 80%;
         padding: 30px;
         margin-right: -25px;
@@ -216,6 +206,7 @@ label:after {
         height: 520px;
         &  h4 {
             margin-bottom: 20px;
+            
         }
     }
 
@@ -225,20 +216,23 @@ label:after {
         position: absolute;
         left: -35px;
         top: 20px;
+        
         & .descricao {
             height: 300px;
             width: 250px;
             padding: 10px;
-            background-color: orange;
+            background-color: var(--cor-card);
             border-radius: 10px;
+            
         }
         & .recorde {
             height: 220px;
             width: 230px;
             padding: 10px;
-            background-color: orange;
+            background-color: var(--cor-card);
             border-radius: 10px; 
-            margin-top: 20px;           
+            margin-top: 20px;        
+               
         }
     }
     & .botoes {
@@ -246,5 +240,6 @@ label:after {
         margin-top: 75px;
         margin-left: 155px;
         gap: 150px;
+        
     }
 }

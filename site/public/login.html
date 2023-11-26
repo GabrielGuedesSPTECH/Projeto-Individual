@@ -10,7 +10,7 @@
     <script src="./js/sessao.js"></script>
 </head>
 
-<body>
+<body onload="verificarTema()">
     <div class="header">
         <div class="container">
             <div class="logo">
@@ -74,9 +74,10 @@
     var input2 = document.querySelector('.card-login .neutro2 ')
     var html = document.querySelector('html')
     var darkmode = document.querySelector('#darkmode-botao')
-
     darkmode.addEventListener('change', function () {
         html.classList.toggle('dark-mode')
+        switchDarkmode = true;
+        sessionStorage.TEMA_USUARIO = switchDarkmode;
     })
 
     function entrar() {
@@ -109,6 +110,7 @@
         else {
             setInterval(sumirMensagem, 5000)
         }
+
         console.log("FORM LOGIN: ", emailVar);
         console.log("FORM SENHA: ", senhaVar);
 
@@ -134,9 +136,8 @@
                     sessionStorage.NOME_USUARIO = json.nome;
                     sessionStorage.IDADE_USUARIO = json.idade;
                     sessionStorage.ID_USUARIO = json.id;
-
                     setTimeout(function () {
-                        window.location = "index.html";
+                        window.location = "quiz.html";
                     }, 2000); // apenas para exibir o loading
 
                 });
@@ -161,5 +162,12 @@
     function sumirMensagem() {
         cardErro.style.display = "none"
     }
-
+    verificarTema();
+    function verificarTema() {
+    var tema = sessionStorage.TEMA_USUARIO;
+    if (tema == true) {
+        var html = document.querySelector('html')
+        html.classList.toggle('dark-mode')  
+    }
+}
 </script>

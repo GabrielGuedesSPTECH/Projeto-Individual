@@ -30,7 +30,7 @@ button {
     height: 60px;
     font-size: 20px;
     border-radius: 20px;
-    transition: .6s;
+    transition: all .6s;
 }
 
 a {
@@ -58,7 +58,7 @@ strong {
     --navbar-corletra: rgba(25, 30, 78, 0.90);
     --cor-container: #1e293b;
     --cor-card: #94A3B8;
-    --cor-letra-quiz: #1E293B; 
+    --cor-letra-quiz: #1E293B;
 }
 
 /*  negrito rgb(225, 29, 72) */
@@ -80,6 +80,25 @@ strong {
     --cor-container: #94A3B8;
     --cor-card: #475569;
     --cor-letra-quiz: #FFF;
+}
+
+/*ANIMAÇÕES*/
+@keyframes Resposta {
+    0% {
+        transform: scale(1.1);
+    }
+
+    40% {
+        transform: scale(1.2)
+    }
+
+    60% {
+        transform: scale(1.1)
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 /* INÍCIO DO HEADER*/
@@ -107,14 +126,14 @@ strong {
 .header .active {
     opacity: 0.95;
     filter: blur(0.5px);
-    transition:  .6s;
+    transition: .6s;
     filter: drop-shadow(0px 0px 10px black);
 }
 
 .container h3 {
     color: var(--header-h3cor);
     font-size: 20px;
-    transition:  .6s;
+    transition: .6s;
 }
 
 
@@ -189,14 +208,16 @@ label:after {
     justify-content: end;
     color: var(--cor-letra-quiz);
     transition: .6s;
+
     & .portico {
         position: absolute;
         right: -12px;
-        margin-top: 80px;
+        bottom: 40px;
         font-weight: 600;
         font-size: 20px;
         transition: .6s;
     }
+
     & .card-quiz {
         background-color: var(--cor-card);
         width: 80%;
@@ -204,42 +225,130 @@ label:after {
         margin-right: -25px;
         border-radius: 25px;
         height: 520px;
-        &  h4 {
+
+        & h4 {
             margin-bottom: 20px;
-            
         }
     }
 
-    & .menu-quiz {
+    & .comecarQuiz {
+        z-index: 100;
         display: flex;
-        flex-direction: column;
         position: absolute;
-        left: -35px;
-        top: 20px;
-        
-        & .descricao {
-            height: 300px;
-            width: 250px;
-            padding: 10px;
-            background-color: var(--cor-card);
-            border-radius: 10px;
-            
+        align-items: center;
+        justify-content: start;
+        flex-direction: column;
+        background-color: var(--cor-card);
+        width: 80%;
+        padding: 30px;
+        margin-right: -25px;
+        border-radius: 25px;
+        height: 520px;
+        & button {
+            margin-top: 60px;
         }
-        & .recorde {
-            height: 220px;
-            width: 230px;
-            padding: 10px;
-            background-color: var(--cor-card);
-            border-radius: 10px; 
-            margin-top: 20px;        
-               
+        & img {
+            margin-top: 20px;
+            width: 150px;
+            margin-right: 40px;
+            border-bottom-left-radius: 70px;
+            border-bottom-right-radius: 70px;
+        }
+        & #marcoAurelio {
+            position: absolute;
+            right: 43px;
+            bottom: 107px;
+        }
+        & #zenao {
+            position: absolute;
+            left: 75px;
+            bottom: 107px;
+        }
+        & #seneca {
+            position: absolute;
+            left: 463px;
+            top: 379px;
+        }
+        & #epicteto {
+            position: absolute;
+            left: 250px;
+            bottom: 107px;
+        
         }
     }
-    & .botoes {
-        display: flex;
-        margin-top: 75px;
-        margin-left: 155px;
-        gap: 150px;
-        
+}
+
+& .menu-quiz {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: -35px;
+    top: 20px;
+
+    & .descricao {
+        height: 300px;
+        width: 250px;
+        padding: 10px;
+        background-color: var(--cor-card);
+        border-radius: 10px;
+
     }
+
+    & .recorde {
+        height: 235px;
+        width: 230px;
+        padding: 10px;
+        background-color: var(--cor-card);
+        border-radius: 10px;
+        margin-top: 20px;
+
+        & a {
+            display: flex;
+            justify-content: center;
+            align-items: end;
+            margin-top: 10px;
+            margin-right: 8px;
+        }
+
+    }
+}
+
+& .botoes {
+    position: absolute;
+    display: flex;
+    top: 255px;
+    margin-left: 155px;
+    gap: 150px;
+    z-index: 3;
+    transition: .6s;
+}
+& .botoes2 {
+    position: absolute;
+    display: flex;
+    top: 405px;
+    margin-left: 155px;
+    gap: 150px;
+    z-index: 3;
+    transition: .6s;
+}
+
+#epicteto {
+    position: absolute;
+    width: 200px;
+    bottom: 70px;
+    border-bottom-left-radius: 80px;
+    border-bottom-right-radius: 80px;
+    left: 320px;
+}
+
+#marco-aurelio {
+    position: absolute;
+    width: 200px;
+    top: 280px;
+    right: 20px;
+}
+
+.Resposta {
+    animation: Resposta .6s;
+    animation-iteration-count: 2;
 }

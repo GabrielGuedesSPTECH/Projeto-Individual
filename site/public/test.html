@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+        }
+
+        #tempo {
+            color: white;
+            font-size: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <button onclick="finalizarTimer()">fim</button>
+    <div id="tempo"></div>
+</body>
+
+</html>
+
+<script>
+    var minutos = 98;
+    var segundos = 0;
+    var tempoFinal = "";
+    var comecarTimer = setInterval(timer, 70)
+
+    function finalizarTimer() {
+        clearInterval(comecarTimer);
+        if (segundos >= 0 && segundos <= 9) {
+            tempoFinal = `${minutos}:0${segundos}`;
+        } else {
+            tempoFinal = `${minutos}:${segundos}`;
+            if (minutos >= 0 && minutos <= 9)
+                tempoFinal = `0${minutos}:${segundos}`;
+        }
+        tempo.innerHTML += `<br>${tempoFinal}`
+    }
+    function timer() {
+        segundos++;
+        if (segundos == 60) {
+            segundos = 0;
+            minutos += 1;
+        }
+        console.log("Minutos: " + minutos, "Segundos: " + segundos);
+        if (segundos >= 0 && segundos <= 9) {
+            tempo.innerHTML = `0${minutos}:0${segundos}`;
+            if ((segundos >= 0 && segundos <= 9) &&  minutos > 9) {
+                tempo.innerHTML = `${minutos}:0${segundos}`;
+            }
+        } else {
+            tempo.innerHTML = `${minutos}:${segundos}`;
+            if (minutos >= 0 && minutos <= 9)
+                tempo.innerHTML = `0${minutos}:${segundos}`;
+        }
+    }
+
+
+</script>

@@ -16,7 +16,7 @@
         rel="stylesheet">
 </head>
 
-<body onload="proximoQuiz()"><!-- onload="validarSessao()" -->
+<body ><!--validarSessao()-->
     <div class="header">
         <div class="container">
             <div class="logo">
@@ -24,7 +24,7 @@
             <h3>Pórtico Pintado</h3>
             <div class="nav-bar">
                 <ul>
-                    <a href="">
+                    <a href="index.html">
                         <li>Home</li>
                     </a>
                     <a href="">
@@ -61,26 +61,43 @@
                         <h3>Olá, <span id="p_usuario"></span>!</h3>
                     </div><br>
                     <div id="pontos">
-                        Seu recorde é de <span id="span_pontos">999 pontos</span>
-                        equivalente a 99% do quiz,
-
-                        <span id="span_pontos_restantes">falta 1 ponto</span> para você
-                        completar 100% do quiz
-                    </div><br>
-                    <a href="">Configurações </a>
+                        Seu recorde é de <span id="span_pontosRecord"></span> pontos
+                        equivalente a <span id="span_porcentagem"></span>% do quiz,
+                        faltam <span id="span_porcentagemRestante"></span>% para você
+                        completar o quiz!
+                    </div>
+                    <a href="#" onclick="finalizarTimer()">Configurações </a>
                 </div>
             </div>
-            <div class="card-quiz">
+            <div class="comecarQuiz" id="comecarQuiz">
+                <h1>Referencias do Estoicismo</h1><br>
+                <h2>Teste seu conhecimento em relação as referencias do estoicismo
+                    <div class="referencias">
+                        <img src="assets/imgs/1699398285988-Standard.png">
+                        <h3 id="zenao">Zenão</h3>
+                        <img src="assets/imgs/epicteto.png">
+                        <h3 id="epicteto">Epicteto</h3>
+                        <img src="assets/imgs/Seneca.png">
+                        <h3 id="seneca">Seneca</h3>
+                        <img src="assets/imgs/marcusaurelius.png">
+                        <h3 id="marcoAurelio">Marco Aurélio</h3>
+                    </div>
+                </h2>
+                <button onclick="proximoQuiz()">Começar</button>
+            </div>
+            <div class="card-quiz" id="card-quiz">
                 <h4 id="questaoAtual">Questão 1</h4>
                 <h2 id="perguntaH2">PERGUNTA</h3>
                     <div class="botoes">
                         <button id="a" class="botao">A</button>
                         <button id="b" class="botao">B</button>
                     </div>
-                    <div class="botoes">
+                    <div class="botoes2">
                         <button id="c" class="botao">C</button>
                         <button id="d" class="botao">D</button>
                     </div>
+                    <img src="assets/imgs/epicteto.png" id="epicteto">
+                    <img src="assets/imgs/marcusaurelius.png" id="marco-aurelio">
                     <div class="portico">
                         Pórtico Pintado 2023
                     </div>
@@ -93,9 +110,8 @@
 
     var html = document.querySelector('html')
     var darkmode = document.querySelector('#darkmode-botao')
-
     darkmode.addEventListener('change', function () {
-        html.classList.toggle('dark-mode')
+        html.classList.toggle('dark-mode');
     })
 
     const respostaA = document.getElementById('a')
@@ -105,15 +121,24 @@
     const botoes = document.getElementsByClassName('botao')
     var quizAtual = 0;
     var respostaAtual = undefined;
-    var acertos = 0;
+    var acertos = 1;
     var minutos = 0;
     var segundos = 0;
+    var tempoFinal = "";
     var comecarTimer = 0;
+    var id = sessionStorage.ID_USUARIO;
+    var nome = sessionStorage.NOME_USUARIO;
+    var data = new Date();
+    var dataFormatada = data.toISOString().slice(0, 19).replace('T', ' ');
+
 
     function proximoQuiz() {
+        var comecarTimer = setInterval(timer, 1000)
+        comecarQuiz.style.display = "none"
         var perguntaAtual = quizDados[quizAtual]
         questaoAtual.innerHTML = `Quiz: ${quizAtual + 1}/${quizDados.length}`;
         perguntaH2.innerHTML = perguntaAtual.pergunta;
+        p_usuario.innerHTML = nome;
         respostaA.innerHTML = perguntaAtual.a;
         respostaB.innerHTML = perguntaAtual.b;
         respostaC.innerHTML = perguntaAtual.c;
@@ -123,72 +148,140 @@
 
     respostaA.addEventListener('click', () => {
         respostaAtual = respostaA.id;
+        respostaA.classList.toggle('Resposta')
+        setTimeout(() => {
+            respostaA.classList.toggle('Resposta')
+        }, 1000);
         verificar();
     })
     respostaB.addEventListener('click', () => {
         respostaAtual = respostaB.id;
+        respostaB.classList.toggle('Resposta')
+        setTimeout(() => {
+            respostaB.classList.toggle('Resposta')
+        }, 1000);
         verificar()
     })
     respostaC.addEventListener('click', () => {
         respostaAtual = respostaC.id;
+        respostaC.classList.toggle('Resposta')
+        setTimeout(() => {
+            respostaC.classList.toggle('Resposta')
+        }, 1000);
         verificar()
     })
     respostaD.addEventListener('click', () => {
         respostaAtual = respostaD.id;
+        respostaD.classList.toggle('Resposta')
+        setTimeout(() => {
+            respostaD.classList.toggle('Resposta')
+        }, 1000);
         verificar()
     })
 
 
     function verificar() {
-        if (quizAtual < quizDados.length - 1) {
-            if (respostaAtual == quizDados[quizAtual].respostaCorreta) {
-                acertos++
-                console.log("Acertos: " + acertos)
-                respostaAtual = undefined;
-            }
-            quizAtual++
-            proximoQuiz()
+        setTimeout(() => {
+            if (quizAtual < quizDados.length - 1) {
+                if (respostaAtual == quizDados[quizAtual].respostaCorreta) {
+                    acertos++
+                    console.log("Acertos: " + acertos)
+                    respostaAtual = undefined;
+                }
+                quizAtual++
+                proximoQuiz()
 
-        } else {
-            if (respostaAtual == quizDados[quizAtual].respostaCorreta) {
-                acertos++
+            } else {
+                if (respostaAtual == quizDados[quizAtual].respostaCorreta) {
+                    acertos++
+                }
+                var porcentagem = (acertos / quizDados.length) * 100;
+                var porcentagemRestante = 100 - porcentagem;
+                finalizarTimer()
             }
-            var porcentagem = (acertos / quizDados.length) * 100;
-            var porcentagemRestante = 100 - porcentagem;
-            pontos.innerHTML =
-                `
-            Seu recorde é de <span id="span_pontos">${acertos} pontos</span>
-            equivalente a ${porcentagem}% do quiz,
-            <span id="span_pontos_restantes">faltam ${porcentagemRestante}%</span> para você
-            completar o quiz  
-            `
-
-            // finalizarTimer()
-            // setTimeout(() => {
-            //     alert("Acertos: " + acertos)
-            // }, 2500);
-            // alert('fim')
-        }
+        }, 1000);
     }
 
-    // function timer() {
-    //     segundos++;
-    //     if (segundos == 60) {
-    //         segundos = 0;
-    //         minutos += 1;
-    //     }
-    // }
-
-
-    var comecarTimer = setInterval(timer, 1000)
-
-
-
-    setInterval(() => {
+    function timer() {
+        segundos++;
+        if (segundos == 60) {
+            segundos = 0;
+            minutos += 1;
+        }
         console.log("Minutos: " + minutos, "Segundos: " + segundos);
-    }, 1000);
+    }
 
-    // function finalizarTimer() {
-    //     clearInterval(comecarTimer);
-    // }
+    function finalizarTimer() {
+        clearInterval(comecarTimer);
+        if (segundos >= 0 && segundos <= 9) {
+            tempoFinal = `0${minutos}:0${segundos}`;
+            if ((segundos >= 0 && segundos <= 9) && minutos > 9) {
+                tempoFinal = `${minutos}:0${segundos}`;
+            }
+        } else {
+            tempoFinal = `${minutos}:${segundos}`;
+            if (minutos >= 0 && minutos <= 9)
+                tempoFinal = `0${minutos}:${segundos}`;
+        }
+
+        fetch("/quiz/registrar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                tempoServer: tempoFinal,
+                pontuacaoServer: acertos,
+                idServer: id,
+                dataServer: dataFormatada,
+            }),
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
+
+                if (resposta.ok) {
+                    console.log('funcionou!!!')
+                }
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+                finalizarAguardar();
+            });
+
+        return false;
+    }
+
+
+    function BuscarPorcentagem() {
+        fetch("/quiz/BuscarPorcentagem", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                idServer: id,
+            }),
+        }).then((function (resposta) {
+            resposta.json().then((pontuacao) => {
+                pontuacao.forEach((pontuacao) => {
+                    if (pontuacao.pontuacaoMax == null) {
+                        pontos.innerHTML =
+                            `
+                                Primeira vez aqui? <br>
+                                Revise os conceitos clicando aqui ou
+                                faça quiz e teste seu conhecimento,
+                                <b>Boa sorte!</b>
+                                `
+                    } else {
+                        span_porcentagem.innerHTML = `${pontuacao.porcentagem}`;
+                        span_porcentagemRestante.innerHTML = `${pontuacao.porcentagemRestante}`;
+                        span_pontosRecord.innerHTML = `${pontuacao.pontuacaoMax}`;
+                        console.log('chegou');
+                    }
+                });
+            });
+        })
+        )
+    };
+    BuscarPorcentagem();
 </script>

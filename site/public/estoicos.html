@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Pórtico Pintado</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://api.fontshare.com/v2/css?f[]=general-sans@500,600,400,700&display=swap" rel="stylesheet">
+    <script src="./js/sessao.js"></script>
+</head>
+
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="logo">
+            </div>
+            <a href="index.html">
+                <h3>Pórtico Pintado</h3>
+            </a>
+            <div class="nav-bar">
+                <ul>
+                    <a href="index.html">
+                        <li>Home</li>
+                    </a>
+                    <a href="#">
+                        <li>Estoicos</li>
+                    </a>
+                    <a href="">
+                        <li>Sobre</li>
+                    </a>
+                    <input type="checkbox" id="darkmode-botao">
+                    <label for="darkmode-botao"></label>
+                </ul>
+            </div>
+        </div>
+        <div class="home">
+            <div class="home-body" style=" 
+            display: flex; 
+            justify-content: center;
+            align-items: center;">
+            <div class="escolha">
+                <h1>Escolha seu estoico favorito</h1>
+            </div>
+                <div class="estoicos">
+                    <div class="card_estoico" id="epicteto">
+                        <img src="assets/imgs/epicteto.png" style="width: 250px; 
+                        position: absolute;
+                        border-bottom-left-radius: 80px; 
+                        border-bottom-right-radius: 80px;">
+                        <h4>
+                            Epicteto foi um filósofo estoico nascido em Hierápolis, 50 d.C.,
+                            De sua obra se conservam o Encheiridion de Epicteto 
+                            (também conhecido como Manual de Epicteto) e as Diatribes (ou Discursos).
+                             Seu nome vem do grego, “epiktetos”, que quer dizer “adquirido” ou “comprado”. 
+                             Seu nome de nascimento é, infelizmente, desconhecido…
+                        </h4>
+                        <button class="botao-login">Escolher</button>
+                    </div>
+                    <div class="card_estoico" id="marcoAurelio">
+                        <img src="assets/imgs/marcusaurelius.png" style="width: 220px; position: absolute;">
+                        <h4> 
+                            Marco Aurélio foi o imperador regente de Roma durante uma época marcada 
+                            por guerras e conflitos além da peste antonina que matou milhões,
+                             mesmo cometendo erros durante seu reinado Marco Aurélio era um 
+                             exemplo de humildade e bondade além de pregar igualdade ao povo 
+                             e se afastar dos luxos da vida focando mais em seu trabalho e 
+                             servir a população romana
+                        </h4>
+                        <button class="botao-login">Escolher</button>
+                    </div>
+                    
+                    <div class="card_estoico" id="seneca">
+                        <img src="assets/imgs/Seneca.png" style="width: 200px;
+                         position: absolute;">
+                        <h4>
+                            Lucius Annaeus Sêneca ou Sêneca o Jovem participou da política do Império Romano,
+                              Foi um dramaturgo de sucesso, uma das pessoas mais ricas 
+                              de Roma, estadista famoso e conselheiro do imperador.
+                               Ele não estudava filosofia de uma maneira desconectada da realidade.
+                                como uma marca da escola estoica, 
+                                Sêneca participava da vida pública, testando o Estoicismo no seu dia a dia.
+                        </h4>
+                        <button class="botao-login">Escolher</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>
+<script>
+    const navbar = document.querySelector(".header .container");
+
+    window.addEventListener("scroll", function () {
+        navbar.classList.toggle("active", scrollY > 120);
+    })
+    var html = document.querySelector('html')
+    var darkmode = document.querySelector('#darkmode-botao')
+
+    darkmode.addEventListener('change', function () {
+        html.classList.toggle('dark-mode')
+    })
+
+    var epicteto = document.getElementById('epicteto');
+    var marcoAurelio = document.getElementById('marcoAurelio');
+    var seneca = document.getElementById('seneca');
+    var estoicoVar = 0;
+    var id = sessionStorage.ID_USUARIO;
+
+    epicteto.addEventListener('click', function(){
+        epicteto.classList.toggle('escolhido')
+        estoicoVar = 2;
+        favoritar();
+        setTimeout(() => {
+            epicteto.classList.toggle('escolhido')            
+        }, 10000);
+    })
+    marcoAurelio.addEventListener('click', function(){
+        marcoAurelio.classList.toggle('escolhido')
+        estoicoVar = 3;
+        favoritar();
+        setTimeout(() => {
+            marcoAurelio.classList.toggle('escolhido')            
+        }, 10000);
+    })
+    seneca.addEventListener('click', function(){
+        seneca.classList.toggle('escolhido')
+        estoicoVar = 4;
+        favoritar();
+        setTimeout(() => {
+            seneca.classList.toggle('escolhido')            
+        }, 10000);
+    })
+    
+    function favoritar() {
+
+        fetch("/usuarios/favoritar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                estoicoServer: estoicoVar,
+                idServer: id,
+            }),
+        })
+            .then(function (resposta) {
+                console.log("resposta: ", resposta);
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+                finalizarAguardar();
+            });
+
+        return false;
+    }
+
+</script>

@@ -16,7 +16,7 @@
         rel="stylesheet">
 </head>
 
-<body ><!--validarSessao()-->
+<body><!--validarSessao()-->
     <div class="header">
         <div class="container">
             <div class="logo">
@@ -26,9 +26,6 @@
                 <ul>
                     <a href="index.html">
                         <li>Home</li>
-                    </a>
-                    <a href="">
-                        <li>Blog</li>
                     </a>
                     <a href="">
                         <li>Sobre</li>
@@ -47,7 +44,7 @@
             <div class="menu-quiz">
                 <div class="descricao">
                     <h3>Quiz Prokopton</h3><br>
-                    Bem vindo!
+                    <h3>Olá, <span id="p_usuario"></span>!</h3>
                     <p>
                         Vamos estudar os conceitos, frases e referencias?<br>
                         Responda esse quiz e descubra seu nivel de conhecimento estoico
@@ -58,7 +55,7 @@
                 </div>
                 <div class="recorde">
                     <div class="hello">
-                        <h3>Olá, <span id="p_usuario"></span>!</h3>
+                        <h3>Recorde</h3>
                     </div><br>
                     <div id="pontos">
                         Seu recorde é de <span id="span_pontosRecord"></span> pontos
@@ -83,7 +80,8 @@
                         <h3 id="marcoAurelio">Marco Aurélio</h3>
                     </div>
                 </h2>
-                <button onclick="proximoQuiz()">Começar</button>
+                <button id="comecarCronometro" onclick="proximoQuiz()">Começar</button>
+
             </div>
             <div class="card-quiz" id="card-quiz">
                 <h4 id="questaoAtual">Questão 1</h4>
@@ -113,32 +111,33 @@
     darkmode.addEventListener('change', function () {
         html.classList.toggle('dark-mode');
     })
-
+    const botaoComecar = document.getElementById('comecarCronometro')
     const respostaA = document.getElementById('a')
     const respostaB = document.getElementById('b')
     const respostaC = document.getElementById('c')
     const respostaD = document.getElementById('d')
-    const botoes = document.getElementsByClassName('botao')
+
     var quizAtual = 0;
     var respostaAtual = undefined;
-    var acertos = 1;
+    var acertos = 0;
     var minutos = 0;
     var segundos = 0;
     var tempoFinal = "";
-    var comecarTimer = 0;
     var id = sessionStorage.ID_USUARIO;
     var nome = sessionStorage.NOME_USUARIO;
     var data = new Date();
     var dataFormatada = data.toISOString().slice(0, 19).replace('T', ' ');
+    p_usuario.innerHTML = nome;
 
 
     function proximoQuiz() {
-        var comecarTimer = setInterval(timer, 1000)
         comecarQuiz.style.display = "none"
         var perguntaAtual = quizDados[quizAtual]
+        if (quizAtual == 0) {
+            var comecarTimer = setInterval(timer, 1000)
+        }
         questaoAtual.innerHTML = `Quiz: ${quizAtual + 1}/${quizDados.length}`;
         perguntaH2.innerHTML = perguntaAtual.pergunta;
-        p_usuario.innerHTML = nome;
         respostaA.innerHTML = perguntaAtual.a;
         respostaB.innerHTML = perguntaAtual.b;
         respostaC.innerHTML = perguntaAtual.c;
@@ -180,6 +179,7 @@
     })
 
 
+
     function verificar() {
         setTimeout(() => {
             if (quizAtual < quizDados.length - 1) {
@@ -199,8 +199,10 @@
                 var porcentagemRestante = 100 - porcentagem;
                 finalizarTimer()
             }
-        }, 1000);
+        }, 500);
     }
+
+
 
     function timer() {
         segundos++;

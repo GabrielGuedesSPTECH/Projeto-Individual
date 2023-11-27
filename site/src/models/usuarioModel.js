@@ -21,8 +21,16 @@ function cadastrar(nome, email, senha, idade) {
     console.log("Executando a instrução SQL: \n" + instrucao);
     return database.executar(instrucao);
 }
-
+function favoritar(estoico, id) {
+    console.log("function cadastrar():", estoico, id)
+    var instrucao = `
+        UPDATE usuario SET fkEstoico = ${estoico} WHERE usuario.id = ${id};
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucao);
+    return database.executar(instrucao);
+}
 module.exports = {
     autenticar,
-    cadastrar
+    cadastrar,
+    favoritar
 };

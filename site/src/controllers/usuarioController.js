@@ -26,7 +26,7 @@ function autenticar(req, res) {
                                 senha: resultadoAutenticar[0].senha,
                                 idade: resultadoAutenticar[0].idade,
                             });
-                        } 
+                        }
                     } else if (resultadoAutenticar.length == 0) {
                         res.status(403).send("Email e/ou senha inválido(s)");
                     } else {
@@ -44,6 +44,31 @@ function autenticar(req, res) {
 
 }
 
+function favoritar(req, res) {
+    var estoico = req.body.estoicoServer
+    var id = req.body.idServer
+    if (estoico == undefined) {
+        res.status(400).send("Seu estoico está undefined!");
+    } else if(id == undefined){
+        res.status(400).send("Seu id está undefined!");
+    }else {
+        usuarioModel.favoritar(estoico, id)
+            .then(
+                function (resultado) {
+                    res.json(resultado);
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro)
+                    console.log(
+                        "\nHouve um erro ao realizar o cadastro! Erro: ",
+                        erro.sqlMessage
+                    );
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+}
 function cadastrar(req, res) {
     // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
     var nome = req.body.nomeServer;
@@ -83,5 +108,6 @@ function cadastrar(req, res) {
 
 module.exports = {
     autenticar,
-    cadastrar
+    cadastrar,
+    favoritar
 }

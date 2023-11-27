@@ -50,6 +50,7 @@ strong {
   --home--body-h1: linear-gradient(180deg, var(--cor-letra) 36.56%, rgba(99, 3, 48, 0.5) 100%);
   --home--body-h2: #000;
   --home--body-p: #000;
+  --cor-card: #94a3b8;
 }
 
 /*  negrito rgb(225, 29, 72) */
@@ -73,6 +74,7 @@ strong {
   --home--body-h1: linear-gradient(180deg, var(--cor-letra) 46.56%, rgba(99, 3, 48, 0.5) 100%);
   --home--body-h2: #FFF;
   --home--body-p: #FFF;
+  --cor-card: #1e293b;
 }
 
 /* Animações */
@@ -127,6 +129,16 @@ strong {
   to {
     opacity: 1;
     clip-path: inset(0% 0% 0% 0%);
+  }
+}
+
+@keyframes aumentar {
+  from {
+    transform: scale(1)
+  }
+
+  to{
+    transform: scale(1.1);
   }
 }
 
@@ -527,4 +539,53 @@ label:after {
 }
 .redes {
   text-align: center;
+}
+.estoicos {
+  display: flex;
+  margin-top: 150px;
+  margin-bottom: 100px;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--cor-fundo);
+  width: 90%;
+  height: 700px;
+  gap: 40px;
+  transition: .6s;
+}
+.card_estoico {
+  position: relative;
+  background-color: var(--cor-card);
+  height: 500px;
+  width: 350px;
+  border-radius: 30px;
+  padding: 20px;
+  transition: .6s;
+  & h4 {
+    margin-top: 110px;
+    font-size: 17px;
+    color: var(--cor-letra);
+  }
+  & img {
+    top: -110px;
+  }
+  & button {
+   position: absolute;
+   bottom: 25px;
+    margin-left: 100px;
+  }
+}
+
+.escolhido {
+  animation-name: aumentar;
+  animation-duration: 0.7s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: both;
+}
+.escolha {
+  margin-top: 100px;
+  width: 80%;
+  margin-bottom: -80px;
+  & h1 {
+    font-size: 10px;
+  }
 }

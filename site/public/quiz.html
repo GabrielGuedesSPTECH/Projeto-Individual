@@ -63,7 +63,6 @@
                         faltam <span id="span_porcentagemRestante"></span>% para você
                         completar o quiz!
                     </div>
-                    <a href="#" onclick="finalizarTimer()">Configurações </a>
                 </div>
             </div>
             <div class="comecarQuiz" id="comecarQuiz">
@@ -128,14 +127,11 @@
     var data = new Date();
     var dataFormatada = data.toISOString().slice(0, 19).replace('T', ' ');
     p_usuario.innerHTML = nome;
-
+    var comecarTimer = setInterval(timer, 1000)
 
     function proximoQuiz() {
         comecarQuiz.style.display = "none"
         var perguntaAtual = quizDados[quizAtual]
-        if (quizAtual == 0) {
-            var comecarTimer = setInterval(timer, 1000)
-        }
         questaoAtual.innerHTML = `Quiz: ${quizAtual + 1}/${quizDados.length}`;
         perguntaH2.innerHTML = perguntaAtual.pergunta;
         respostaA.innerHTML = perguntaAtual.a;

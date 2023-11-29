@@ -15,5 +15,8 @@ router.post("/autenticar", function (req, res) {
 router.post("/favoritar", function (req, res) {
     usuarioController.favoritar(req, res);
 });
+router.get("/buscarDadosChart", function (req, res) {
+    usuarioController.buscarDadosChart(req, res);
+});
 
 module.exports = router;

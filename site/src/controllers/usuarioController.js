@@ -49,9 +49,9 @@ function favoritar(req, res) {
     var id = req.body.idServer
     if (estoico == undefined) {
         res.status(400).send("Seu estoico está undefined!");
-    } else if(id == undefined){
+    } else if (id == undefined) {
         res.status(400).send("Seu id está undefined!");
-    }else {
+    } else {
         usuarioModel.favoritar(estoico, id)
             .then(
                 function (resultado) {
@@ -68,6 +68,13 @@ function favoritar(req, res) {
                 }
             );
     }
+}
+function buscarDadosChart(req, res) {
+    usuarioModel.buscarDadosChart().then(function (resultado) {
+        res.status(200).json(resultado);
+    }).catch(function (erro) {
+        res.status(500).json(erro.sqlMessage);
+    })
 }
 function cadastrar(req, res) {
     // Crie uma variável que vá recuperar os valores do arquivo cadastro.html
@@ -109,5 +116,6 @@ function cadastrar(req, res) {
 module.exports = {
     autenticar,
     cadastrar,
-    favoritar
+    favoritar,
+    buscarDadosChart
 }

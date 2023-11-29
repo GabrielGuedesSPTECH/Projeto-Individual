@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://api.fontshare.com/v2/css?f[]=general-sans@500,600,400,700&display=swap" rel="stylesheet">
     <script src="./js/sessao.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -39,9 +40,9 @@
             display: flex; 
             justify-content: center;
             align-items: center;">
-            <div class="escolha">
-                <h1>Escolha seu estoico favorito</h1>
-            </div>
+                <div class="escolha titulo-estoicismo">
+                    <h1>Escolha seu estoico favorito</h1>
+                </div>
                 <div class="estoicos">
                     <div class="card_estoico" id="epicteto">
                         <img src="assets/imgs/epicteto.png" style="width: 250px; 
@@ -50,38 +51,49 @@
                         border-bottom-right-radius: 80px;">
                         <h4>
                             Epicteto foi um filósofo estoico nascido em Hierápolis, 50 d.C.,
-                            De sua obra se conservam o Encheiridion de Epicteto 
+                            De sua obra se conservam o Encheiridion de Epicteto
                             (também conhecido como Manual de Epicteto) e as Diatribes (ou Discursos).
-                             Seu nome vem do grego, “epiktetos”, que quer dizer “adquirido” ou “comprado”. 
-                             Seu nome de nascimento é, infelizmente, desconhecido…
+                            Seu nome vem do grego, “epiktetos”, que quer dizer “adquirido” ou “comprado”.
+                            Seu nome de nascimento é, infelizmente, desconhecido…
                         </h4>
                         <button class="botao-login">Escolher</button>
                     </div>
                     <div class="card_estoico" id="marcoAurelio">
                         <img src="assets/imgs/marcusaurelius.png" style="width: 220px; position: absolute;">
-                        <h4> 
-                            Marco Aurélio foi o imperador regente de Roma durante uma época marcada 
+                        <h4>
+                            Marco Aurélio foi o imperador regente de Roma durante uma época marcada
                             por guerras e conflitos além da peste antonina que matou milhões,
-                             mesmo cometendo erros durante seu reinado Marco Aurélio era um 
-                             exemplo de humildade e bondade além de pregar igualdade ao povo 
-                             e se afastar dos luxos da vida focando mais em seu trabalho e 
-                             servir a população romana
+                            mesmo cometendo erros durante seu reinado Marco Aurélio era um
+                            exemplo de humildade e bondade além de pregar igualdade ao povo
+                            e se afastar dos luxos da vida focando mais em seu trabalho e
+                            servir a população romana
                         </h4>
                         <button class="botao-login">Escolher</button>
                     </div>
-                    
+
                     <div class="card_estoico" id="seneca">
                         <img src="assets/imgs/Seneca.png" style="width: 200px;
                          position: absolute;">
                         <h4>
                             Lucius Annaeus Sêneca ou Sêneca o Jovem participou da política do Império Romano,
-                              Foi um dramaturgo de sucesso, uma das pessoas mais ricas 
-                              de Roma, estadista famoso e conselheiro do imperador.
-                               Ele não estudava filosofia de uma maneira desconectada da realidade.
-                                como uma marca da escola estoica, 
-                                Sêneca participava da vida pública, testando o Estoicismo no seu dia a dia.
+                            Foi um dramaturgo de sucesso, uma das pessoas mais ricas
+                            de Roma, estadista famoso e conselheiro do imperador.
+                            Ele não estudava filosofia de uma maneira desconectada da realidade.
+                            como uma marca da escola estoica,
+                            Sêneca participava da vida pública, testando o Estoicismo no seu dia a dia.
                         </h4>
                         <button class="botao-login">Escolher</button>
+                    </div>
+                </div>
+                <div class="graficos">
+                    <h1 id="escolha">Escolhas mais populares</h1>
+                    <div class="charts">
+                        <div class="chart">
+                            <canvas id="myChart" style="position: absolute;"></canvas>
+                        </div>
+                        <div class="chart">
+                            <canvas id="myChart2"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -91,12 +103,17 @@
 </html>
 <script>
     const navbar = document.querySelector(".header .container");
+    const escolhas = document.getElementById("escolha");
+    var html = document.querySelector('html')
+    var darkmode = document.querySelector('#darkmode-botao')
+
+    window.addEventListener('scroll', function () {
+        escolhas.classList.toggle('surgirDaDireita', scrollY > 400)
+    })
 
     window.addEventListener("scroll", function () {
         navbar.classList.toggle("active", scrollY > 120);
     })
-    var html = document.querySelector('html')
-    var darkmode = document.querySelector('#darkmode-botao')
 
     darkmode.addEventListener('change', function () {
         html.classList.toggle('dark-mode')
@@ -107,32 +124,35 @@
     var seneca = document.getElementById('seneca');
     var estoicoVar = 0;
     var id = sessionStorage.ID_USUARIO;
+    var escolhaEpicteto = 0;
+    var escolhaMarcoAurelio = 0;
+    var escolhaSeneca = 0;
 
-    epicteto.addEventListener('click', function(){
+    epicteto.addEventListener('click', function () {
         epicteto.classList.toggle('escolhido')
-        estoicoVar = 2;
-        favoritar();
-        setTimeout(() => {
-            epicteto.classList.toggle('escolhido')            
-        }, 10000);
-    })
-    marcoAurelio.addEventListener('click', function(){
-        marcoAurelio.classList.toggle('escolhido')
         estoicoVar = 3;
         favoritar();
         setTimeout(() => {
-            marcoAurelio.classList.toggle('escolhido')            
+            epicteto.classList.toggle('escolhido')
         }, 10000);
     })
-    seneca.addEventListener('click', function(){
+    marcoAurelio.addEventListener('click', function () {
+        marcoAurelio.classList.toggle('escolhido')
+        estoicoVar = 2;
+        favoritar();
+        setTimeout(() => {
+            marcoAurelio.classList.toggle('escolhido')
+        }, 10000);
+    })
+    seneca.addEventListener('click', function () {
         seneca.classList.toggle('escolhido')
         estoicoVar = 4;
         favoritar();
         setTimeout(() => {
-            seneca.classList.toggle('escolhido')            
+            seneca.classList.toggle('escolhido')
         }, 10000);
     })
-    
+
     function favoritar() {
 
         fetch("/usuarios/favoritar", {
@@ -155,5 +175,88 @@
 
         return false;
     }
-
+    function buscarDadosChart() {
+        fetch("/usuarios/buscarDadosChart", {
+            method: "GET",
+        })
+            .then(function (resposta) {
+                resposta.json().then((usuarios) => {
+                    usuarios.forEach((usuarios) => {
+                        escolhaEpicteto = usuarios.Epicteto;
+                        escolhaMarcoAurelio = usuarios.MarcoAurelio;
+                        escolhaSeneca = usuarios.Seneca;
+                    });
+                });
+            })
+            .catch(function (resposta) {
+                console.log(`#ERRO: ${resposta}`);
+            });
+    }
+    buscarDadosChart();
+    setTimeout(() => {
+        const data = {
+        labels: [
+            'Epicteto',
+            'Marco Aurélio',
+            'Sêneca'
+        ],
+        datasets: [{
+            data: [escolhaEpicteto, marcoAurelio, escolhaSeneca],
+            backgroundColor: [
+                'rgb(0, 0, 220)',
+                'rgb(100, 0, 215)',
+                'rgb(255, 15, 100)'
+            ],
+            borderColor: 'rgba(0, 0, 0, 0.6)',
+            hoverOffset: 15
+        }]
+    };
+    
+    const data2 = {
+        labels: [
+            '10 a 20 anos',
+            '20 a 30 anos',
+            '30 a 50 anos',
+            '50 anos pra cima'
+        ],
+        datasets: [{
+            label: 'Idade média dos usuarios',
+            data: [50, 10, 10, 10],
+            backgroundColor: [
+                'rgb(0, 0, 220)'
+            ],
+            borderColor: 'rgba(0, 0, 220, 0.7)',
+            borderRadius: 10,
+            barThickness: 45,
+            hoverBackgroundColor: 'rgb(100, 0, 220)',
+            hoverBorderRadius: 15,
+            hoverBorderWidth: 6,
+        }]
+    };
+    const config = {
+        type: 'pie',
+        data: data,
+        options: {
+        }
+    };
+    const config2 = {
+        type: 'bar',
+        data: data2,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        },
+    };
+    const myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+    );
+    const myChart2 = new Chart(
+        document.getElementById('myChart2'),
+        config2
+    );
+}, 1000);
 </script>

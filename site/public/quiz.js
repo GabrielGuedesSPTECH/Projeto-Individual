@@ -96,7 +96,7 @@ const quizDados = [
         respostaCorreta: 'a'
     },
     {
-        pergunta: 'Qual dos seguintes estoicos bebeu veneno em seus ultimos momentos?',
+        pergunta: 'Qual dos seguintes estoicos bebeu veneno em seus últimos momentos?',
         a: 'Epicteto',
         b: 'Zenão',
         c: 'Sêneca',

@@ -11,7 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
-<body>
+<body onload="validarSessao()">
     <div class="header">
         <div class="container">
             <div class="logo">
@@ -29,6 +29,15 @@
                     </a>
                     <a href="">
                         <li>Sobre</li>
+                    </a>
+                    <li>
+                        <span id="p_usuario"></span>
+                    </li>
+                    <a href="#">
+
+                        <div class="btn-logout" onclick="limparSessao()">
+                            Sair
+                        </div>
                     </a>
                     <input type="checkbox" id="darkmode-botao">
                     <label for="darkmode-botao"></label>
@@ -92,11 +101,13 @@
                             <canvas id="myChart" style="position: absolute;"></canvas>
                         </div>
                         <div class="chart">
-                            <canvas id="myChart2"></canvas>
+                            <canvas id="myChart2" style="width: 420px; height: 400px;"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div id="dadosGrafico">
         </div>
 </body>
 
@@ -104,11 +115,13 @@
 <script>
     const navbar = document.querySelector(".header .container");
     const escolhas = document.getElementById("escolha");
+    const home = document.querySelector('.home');
     var html = document.querySelector('html')
     var darkmode = document.querySelector('#darkmode-botao')
+    var nome = sessionStorage.NOME_USUARIO;
 
     window.addEventListener('scroll', function () {
-        escolhas.classList.toggle('surgirDaDireita', scrollY > 400)
+        escolhas.classList.toggle('surgirDaDireita', scrollY > 600)
     })
 
     window.addEventListener("scroll", function () {
@@ -127,7 +140,9 @@
     var escolhaEpicteto = 0;
     var escolhaMarcoAurelio = 0;
     var escolhaSeneca = 0;
-
+    var idadeEpicteto = 0;
+    var idadeMarcoAurelio = 0;
+    var idadeSeneca = 0;
     epicteto.addEventListener('click', function () {
         epicteto.classList.toggle('escolhido')
         estoicoVar = 3;
@@ -185,6 +200,9 @@
                         escolhaEpicteto = usuarios.Epicteto;
                         escolhaMarcoAurelio = usuarios.MarcoAurelio;
                         escolhaSeneca = usuarios.Seneca;
+                        idadeEpicteto = usuarios.idade2;
+                        idadeMarcoAurelio = usuarios.idade3;
+                        idadeSeneca = usuarios.idade4;
                     });
                 });
             })
@@ -195,68 +213,104 @@
     buscarDadosChart();
     setTimeout(() => {
         const data = {
-        labels: [
-            'Epicteto',
-            'Marco Aurélio',
-            'Sêneca'
-        ],
-        datasets: [{
-            data: [escolhaEpicteto, marcoAurelio, escolhaSeneca],
-            backgroundColor: [
-                'rgb(0, 0, 220)',
-                'rgb(100, 0, 215)',
-                'rgb(255, 15, 100)'
+            labels: [
+                'Epicteto',
+                'Marco Aurélio',
+                'Sêneca'
             ],
-            borderColor: 'rgba(0, 0, 0, 0.6)',
-            hoverOffset: 15
-        }]
-    };
-    
-    const data2 = {
-        labels: [
-            '10 a 20 anos',
-            '20 a 30 anos',
-            '30 a 50 anos',
-            '50 anos pra cima'
-        ],
-        datasets: [{
-            label: 'Idade média dos usuarios',
-            data: [50, 10, 10, 10],
-            backgroundColor: [
-                'rgb(0, 0, 220)'
+            datasets: [{
+                data: [escolhaEpicteto, escolhaMarcoAurelio, escolhaSeneca],
+                backgroundColor: [
+                    'rgb(0, 0, 220)',
+                    'rgb(100, 0, 215)',
+                    'rgb(255, 15, 100)'
+                ],
+                borderColor: 'rgba(0, 0, 0, 0.6)',
+                hoverOffset: 15
+            }]
+        };
+
+        const data2 = {
+            labels: [
+                'Epicteto',
+                'Marco Aurélio',
+                'Sêneca',
             ],
-            borderColor: 'rgba(0, 0, 220, 0.7)',
-            borderRadius: 10,
-            barThickness: 45,
-            hoverBackgroundColor: 'rgb(100, 0, 220)',
-            hoverBorderRadius: 15,
-            hoverBorderWidth: 6,
-        }]
-    };
-    const config = {
-        type: 'pie',
-        data: data,
-        options: {
-        }
-    };
-    const config2 = {
-        type: 'bar',
-        data: data2,
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
+            datasets: [{
+                label: 'Idade média dos usuarios que escolheram',
+                data: [idadeEpicteto, idadeMarcoAurelio, idadeSeneca],
+                backgroundColor: [
+                    'rgb(0, 0, 220)',
+                    'rgb(100, 0, 215)',
+                    'rgb(255, 15, 100)'
+                ],
+                borderColor: 'rgba(0, 0, 220, 0.7)',
+                borderRadius: 10,
+                barThickness: 45,
+                hoverBackgroundColor: 'rgb(100, 0, 220)',
+                hoverBorderRadius: 15,
+                hoverBorderWidth: 6,
+            }]
+        };
+        const config = {
+            type: 'pie',
+            data: data,
+            options: {
             }
-        },
-    };
-    const myChart = new Chart(
-        document.getElementById('myChart'),
-        config
-    );
-    const myChart2 = new Chart(
-        document.getElementById('myChart2'),
-        config2
-    );
-}, 1000);
+        };
+        const config2 = {
+            type: 'bar',
+            data: data2,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            },
+        };
+        const myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
+        const myChart2 = new Chart(
+            document.getElementById('myChart2'),
+            config2
+        );
+    }, 1000);
+    myChart.addEventListener('click', () => {
+        dadosGrafico.style.display = "block"
+        dadosGrafico.innerHTML =
+            `
+          <h1>Número de escolhas</h1> <img onclick="fechar()" src="assets/imgs/pngegg.png"><br>
+          <h2>Epicteto: ${escolhaEpicteto}</h2>
+          <h2>Marco Aurélio: ${escolhaMarcoAurelio}</h2>
+          <h2>Sêneca: ${escolhaSeneca}</h2>
+          `;
+        home.classList.toggle('blur')
+    })
+    myChart2.addEventListener('click', () => {
+        dadosGrafico.style.display = "block"
+        if (idadeEpicteto == null) {
+            idadeEpicteto = "nenhum dado disponível";
+        }
+        if (idadeMarcoAurelio == null) {
+            idadeMarcoAurelio = "nenhum dado disponível";
+        }
+        if (idadeSeneca == null) {
+            idadeSeneca = "nenhum dado disponível";
+        }
+        dadosGrafico.innerHTML =
+            `
+          <h1>Idade média dos que escolheram</h1> <img onclick="fechar()" src="assets/imgs/pngegg.png"><br>
+          <h2>Epicteto: ${idadeEpicteto}</h2>
+          <h2>Marco Aurélio: ${idadeMarcoAurelio}</h2>
+          <h2>Sêneca: ${idadeSeneca}</h2>
+          `;
+        home.classList.toggle('blur')
+    })
+    function fechar() {
+        dadosGrafico.style.display = "none";
+        home.classList.toggle('blur')
+    } 
 </script>

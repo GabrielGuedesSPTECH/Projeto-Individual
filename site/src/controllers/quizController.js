@@ -36,7 +36,7 @@ function registrar(req, res) {
 }
 
 function BuscarPorcentagem(req, res) {
-    var id = req.body.idServer;
+    var id = req.params.id;
     quizModel.BuscarPorcentagem(id)
         .then(
             function (resultado) {

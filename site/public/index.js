@@ -4,7 +4,7 @@ function redirecionarLogin() {
 
 function sermaoSeneca() {
     var magoa = txtarea_magoa.value;
-    var magoaSoerteada = parseInt(Math.random()* frasesSeneca.length)
+    var magoaSoerteada = parseInt(Math.random()* frasesSeneca.length + 1)
     var displayErro = document.getElementById('error').style.display = 'block';
 
     if (magoa == "") {

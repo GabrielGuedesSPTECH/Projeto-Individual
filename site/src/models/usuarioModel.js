@@ -31,14 +31,7 @@ function favoritar(estoico, id) {
 }
 function buscarDadosChart() {
 
-    var query = `select count(fkEstoico) Seneca,
-    (select count(fkEstoico) from usuario where fkEstoico = 3) as Epicteto,
-    (select count(fkEstoico) from usuario where fkEstoico = 2) as MarcoAurelio
-     from usuario
-        where fkEstoico = 4;`;
-    // select estoicos.nome, count(fkEstoico) from estoicos 
-    // left join usuario on usuario.fkEstoico = estoicos.id
-    //     group by estoicos.nome;
+    var query = `select * from vw_analyticsEstoicos;`;
     return database.executar(query);
 }
 module.exports = {

@@ -324,6 +324,7 @@ label:after {
 }
 
 .referencias {
+  transition: 0.6s;
   display: flex;
   align-items: start;
   flex-direction: row-reverse;
@@ -331,6 +332,7 @@ label:after {
 }
 
 .referencias-reverse {
+  transition: 0.6s;
   display: flex;
   align-items: start;
   background-color: var(--cor-fundo);
@@ -402,6 +404,7 @@ label:after {
 }
 
 .conte-a-seneca {
+  transition: 0.6s;
   position: relative;
   background-color: var(--cor-fundo);
   color: var(--cor-letra);
@@ -483,6 +486,7 @@ label:after {
 }
 
 .footer {
+  transition: 0.6s;
   width: 100%;
   background-color: var(--cor-fundo);
   display: flex;
@@ -606,18 +610,43 @@ label:after {
   animation-duration: 2s;
   animation-fill-mode: both;
 }
-.charts {
+.graficos .charts {
   position: relative;
-  width: 100%;
+  width: 800px;
   height: 100vh;
   gap: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
   & .chart {
-    margin-top: 30px;
-    height: 420px;
-    width: 500px;
+    margin-top: 380px;
+    height: 820px;
+    width: 1000px;
     transition: .6s;
+  }
+}
+.myChart6{
+  height: 250px;
+  width: 500px;
+}
+#dadosGrafico {
+  position: absolute;
+  border: solid 1px;
+  border-radius: 10px;
+  right: 25%;
+  top: 1500px;
+  background-color: var(--cor-rockblue-escuro);
+  color: var(--cor--negrito);
+  padding: 15px;
+  justify-content: center;
+  height: 250px;
+  width: 630px;
+  display: none;
+  z-index: 100;
+  & img {
+    width: 40px;
+    position: absolute;
+    right: 40px;
+    bottom: 190px;
   }
 }

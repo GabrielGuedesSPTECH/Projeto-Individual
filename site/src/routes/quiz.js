@@ -6,7 +6,7 @@ var quizController = require("../controllers/quizController");
 router.post("/registrar", function (req, res) {
     quizController.registrar(req, res);
 })
-router.post("/BuscarPorcentagem", function (req, res) {
+router.get("/BuscarPorcentagem/:id", function (req, res) {
     quizController.BuscarPorcentagem(req, res);
 })
 

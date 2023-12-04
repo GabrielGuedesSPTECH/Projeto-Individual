@@ -244,9 +244,11 @@ label:after {
         margin-right: -25px;
         border-radius: 25px;
         height: 520px;
+
         & button {
-            margin-top: 60px;
+            margin-top: 80px;
         }
+
         & img {
             margin-top: 20px;
             width: 150px;
@@ -254,26 +256,36 @@ label:after {
             border-bottom-left-radius: 70px;
             border-bottom-right-radius: 70px;
         }
+        & #sair {
+            position: absolute;
+            width: 40px;
+            height: 30px;
+            right: 0;
+            top: 20px;
+        }
         & #marcoAurelio {
             position: absolute;
             right: 43px;
             bottom: 107px;
         }
+
         & #zenao {
             position: absolute;
             left: 75px;
             bottom: 107px;
         }
+
         & #seneca {
             position: absolute;
             left: 463px;
             top: 379px;
         }
+
         & #epicteto {
             position: absolute;
             left: 250px;
             bottom: 107px;
-        
+
         }
     }
 }
@@ -322,6 +334,7 @@ label:after {
     z-index: 3;
     transition: .6s;
 }
+
 & .botoes2 {
     position: absolute;
     display: flex;
@@ -352,3 +365,15 @@ label:after {
     animation: Resposta .6s;
     animation-iteration-count: 2;
 }
+
+.porcentagem {
+    text-align: center;
+}
+.charts {
+    position: relative;
+    border-top: 40px;
+    height: 420px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

@@ -14,9 +14,10 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
-<body><!--validarSessao()-->
+<body onload="validarSessao()">
     <div class="header">
         <div class="container">
             <div class="logo">
@@ -29,6 +30,9 @@
                     </a>
                     <a href="">
                         <li>Sobre</li>
+                    </a>
+                    <a href="estoicos.html">
+                        <li>Estoicos</li>
                     </a>
                     <a href="#">
                         <div class="btn-logout" onclick="limparSessao()">
@@ -46,11 +50,11 @@
                     <h3>Quiz Prokopton</h3><br>
                     <h3>Olá, <span id="p_usuario"></span>!</h3>
                     <p>
-                        Vamos estudar os conceitos, frases e referencias?<br>
-                        Responda esse quiz e descubra seu nivel de conhecimento estoico
+                        Vamos estudar as referências??<br>
+                        Responda esse quiz e descubra seu nível de conhecimento Estoico
                     </p><br>
                     <p>
-                        Jogue tambem nosso quiz de Frases clicando <a href="#" id="novoQuiz">aqui</a>
+                        <a href="#" onclick="obterDadosGrafico()" id="stats"></a>
                     </p>
                 </div>
                 <div class="recorde">
@@ -66,8 +70,8 @@
                 </div>
             </div>
             <div class="comecarQuiz" id="comecarQuiz">
-                <h1>Referencias do Estoicismo</h1><br>
-                <h2>Teste seu conhecimento em relação as referencias do estoicismo
+                <h1>Referências do Estoicismo</h1><br>
+                <h2>Teste seu conhecimento em relação as referências do Estoicismo
                     <div class="referencias">
                         <img src="assets/imgs/1699398285988-Standard.png">
                         <h3 id="zenao">Zenão</h3>
@@ -126,6 +130,9 @@
     var nome = sessionStorage.NOME_USUARIO;
     var data = new Date();
     var dataFormatada = data.toISOString().slice(0, 19).replace('T', ' ');
+    var porcentagem = 0;
+    var porcentagemRestante = 0;
+    var recorde = 0;
     p_usuario.innerHTML = nome;
     var comecarTimer = setInterval(timer, 1000)
 
@@ -191,9 +198,58 @@
                 if (respostaAtual == quizDados[quizAtual].respostaCorreta) {
                     acertos++
                 }
-                var porcentagem = (acertos / quizDados.length) * 100;
-                var porcentagemRestante = 100 - porcentagem;
                 finalizarTimer()
+                if (recorde < acertos) {
+                    comecarQuiz.innerHTML =
+                        `
+                    <h1>Novo recorde: ${((acertos / quizDados.length) * 100).toFixed(0)}%</h1>
+                    <img id="sair" onclick="fechar()" src="assets/imgs/pngegg.png">
+                    <div class="charts">
+                    <canvas id="myChart4"></canvas>
+                    </div> 
+                `;
+                } else {
+                    comecarQuiz.innerHTML =
+                        `
+                    <h1>Porcentagem de acertos: ${((acertos / quizDados.length) * 100).toFixed(0)}%</h1>
+                    <img id="sair" onclick="fechar()" src="assets/imgs/pngegg.png">
+                    <div class="charts">
+                    <canvas id="myChart4"></canvas>
+                    </div>                `;
+                }
+                comecarQuiz.style.display = "block"
+                const data4 = {
+                    labels: [
+                        'Acertos',
+                        'Erros'
+                    ],
+                    datasets: [{
+                        data: [(acertos / quizDados.length) * 100, 100 - ((acertos / quizDados.length) * 100)],
+                        backgroundColor: [
+                            'rgb(0, 0, 220)',
+                            'rgba(0, 0, 0, 0.0)',
+                        ],
+                        borderColor: 'rgba(0, 0, 0, 0.0)',
+                        hoverBackgroundColor: [
+                            'rgb(0, 0, 220)',
+                            'rgb(220, 0, 0)',
+                        ],
+                        borderWidth: 1,
+                        cutout: '80%',
+                        borderRadius: 5
+                    }]
+                };
+
+                const config4 = {
+                    type: 'doughnut',
+                    data: data4,
+                    options: {
+                    }
+                };
+                const myChart4 = new Chart(
+                    document.getElementById('myChart4'),
+                    config4
+                );
             }
         }, 500);
     }
@@ -251,14 +307,8 @@
 
 
     function BuscarPorcentagem() {
-        fetch("/quiz/BuscarPorcentagem", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                idServer: id,
-            }),
+        fetch(`/quiz/BuscarPorcentagem/${id}`, {
+            method: "GET",
         }).then((function (resposta) {
             resposta.json().then((pontuacao) => {
                 pontuacao.forEach((pontuacao) => {
@@ -270,16 +320,140 @@
                                 faça quiz e teste seu conhecimento,
                                 <b>Boa sorte!</b>
                                 `
+                        stats.innerHTML = ""
                     } else {
                         span_porcentagem.innerHTML = `${pontuacao.porcentagem}`;
                         span_porcentagemRestante.innerHTML = `${pontuacao.porcentagemRestante}`;
                         span_pontosRecord.innerHTML = `${pontuacao.pontuacaoMax}`;
+                        porcentagemRestante = pontuacao.porcentagemRestante;
+                        porcentagem = pontuacao.porcentagem;
+                        recorde = pontuacao.pontuacaoMax
                         console.log('chegou');
+                        stats.innerHTML = "Estatísticas"
                     }
                 });
             });
         })
         )
     };
+    function obterDadosGrafico() {
+        var id = sessionStorage.ID_USUARIO;
+
+        setTimeout(() => {
+            fetch(`/historico/ultimas/${id}`, { cache: 'no-store' }).then(function (response) {
+                if (response.ok) {
+                    response.json().then(function (resposta) {
+                        console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+                        resposta.reverse();
+                            mostrarAnalytics(resposta, id);
+                    });
+                } else {
+                    console.error('Nenhum dado encontrado ou erro na API');
+                }
+            })
+                .catch(function (error) {
+                    console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+                });
+        }, 1000);
+    }
+    function mostrarAnalytics(resposta) {
+        let labels = [];
+        let tempo = []
+        let dados = {
+            labels: labels,
+            datasets: [{
+                label: 'Pontuacao',
+                data: [],
+                backgroundColor: [
+                    'rgb(0, 0, 220)',
+                ],
+                borderColor: 'rgb(0, 0, 220)',
+                borderWidth: 2,
+                borderRadius: 5
+            }
+            ]
+        };
+        comecarQuiz.innerHTML =
+            `
+                    <h1>Suas Estatísticas</h1><img id="sair" onclick="fechar()" src="assets/imgs/pngegg.png">
+                    <div class="charts">
+                    <div class="chart">
+                    <canvas id="myChart5"></canvas>
+                    </div>
+                    <div class="chart">
+                    <canvas id="myChart6" style="height: 250px; width: 500px;"></canvas>
+                    </div>
+                    </div> 
+                `;
+        console.log('----------------------------------------------')
+        console.log('Estes dados foram recebidos pela funcao "obterDadosGrafico" e passados para "mostrarAnalytics":')
+        console.log(resposta)
+        for (i = 0; i < resposta.length; i++) {
+            var registro = resposta[i];
+            labels.push(registro.dtTentativa);
+            dados.datasets[0].data.push(registro.acertos);
+        }
+
+        comecarQuiz.style.display = "block"
+        setTimeout(() => {
+            const data5 = {
+                labels: [
+                    'Acertos',
+                    'Erros'
+                ],
+                datasets: [{
+                    data: [porcentagem, porcentagemRestante],
+                    backgroundColor: [
+                        'rgb(0, 0, 220)',
+                        'rgba(0, 0, 0, 0.0)',
+                    ],
+                    borderColor: 'rgba(0, 0, 0, 0.0)',
+                    hoverBackgroundColor: [
+                        'rgb(0, 0, 220)',
+                        'rgb(220, 0, 0)',
+                    ],
+                    borderWidth: 1,
+                    cutout: '80%',
+                    borderRadius: 5
+                }]
+            };
+
+            const config5 = {
+                type: 'doughnut',
+                data: data5,
+                options: {
+                }
+            };
+            const config6 = {
+                type: 'line',
+                data: dados,
+                options: {
+                    scales: {
+                        y: {
+                            min: 0,
+                            max: 15,
+                        }
+                    },
+                    elements: {
+                        point: {
+                            radius: 0
+                        }
+                    }
+                }
+            };
+            const myChart5 = new Chart(
+                document.getElementById('myChart5'),
+                config5
+            );
+            const myChart6 = new Chart(
+                document.getElementById('myChart6'),
+                config6
+            );
+
+        }, 500)
+    }
     BuscarPorcentagem();
+    function fechar() {
+        window.location = "quiz.html"
+    } 
 </script>

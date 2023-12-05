@@ -7,9 +7,14 @@ var usuarioController = require("../controllers/usuarioController");
 router.post("/cadastrar", function (req, res) {
     usuarioController.cadastrar(req, res);
 })
-
+router.post("/cadastrarLogin", function (req, res) {
+    usuarioController.cadastrarLogin(req, res);
+})
 router.post("/autenticar", function (req, res) {
     usuarioController.autenticar(req, res);
+});
+router.get("/autenticarLogin/:email/:senha", function (req, res) {
+    usuarioController.autenticarLogin(req, res);
 });
 
 router.post("/favoritar", function (req, res) {

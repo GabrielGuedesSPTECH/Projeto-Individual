@@ -10,7 +10,7 @@
     <script src="./js/sessao.js"></script>
 </head>
 
-<body onload="verificarTema()">
+<body>
     <div class="header">
         <div class="container">
             <div class="logo">
@@ -40,11 +40,7 @@
                 <img src="assets/imgs/marcusaurelius.png">
                 <h2>Email</h2>
                 <input type="text" id="email_input" class="neutro1">
-                <div class="alerta_erro">
-                    <div class="card_erro2" id="cardErro2">
-                        <span id="mensagem_erro2"></span>
-                    </div>
-                </div>
+
                 <div class="alerta_erro">
                     <div class="card_erro" id="cardErro">
                         <span id="mensagem_erro"></span>
@@ -74,38 +70,25 @@
     var input2 = document.querySelector('.card-login .neutro2 ')
     var html = document.querySelector('html')
     var darkmode = document.querySelector('#darkmode-botao')
+   
     darkmode.addEventListener('change', function () {
         html.classList.toggle('dark-mode')
-        switchDarkmode = true;
-        sessionStorage.TEMA_USUARIO = switchDarkmode;
     })
 
     function entrar() {
-        mensagem_erro.innerHTML = "";
         mensagem_erro1.innerHTML = "";
-        mensagem_erro2.innerHTML = "";
-        cardErro.style.display = "none"
         cardErro1.style.display = "none"
-        cardErro2.style.display = "none"
         var emailVar = email_input.value;
         var senhaVar = senha_input.value;
         if (emailVar == "" && senhaVar == "") {
-            cardErro2.style.display = "block"
-            mensagem_erro2.innerHTML = "Preencha os campos de E-mail e Senha";
-            input.classList.toggle("invalido1");
-            input2.classList.toggle("invalido2");
+            cardErro1.style.display = "block"
+            mensagem_erro1.innerHTML = "Preencha os campos de E-mail e Senha";
         } else if (senhaVar == "") {
             cardErro1.style.display = "block"
             mensagem_erro1.innerHTML = "Preencha a Senha";
-            cardErro.style.display = "none"
-            cardErro2.style.display = "none"
-            input2.classList.toggle("invalido2");
         } else if (emailVar == "") {
-            cardErro.style.display = "block"
-            mensagem_erro.innerHTML = "Preencha seu E-mail";
-            cardErro1.style.display = "none"
-            cardErro2.style.display = "none"
-            input.classList.toggle("invalido1");
+            cardErro1.style.display = "block"
+            mensagem_erro1.innerHTML = "Preencha seu E-mail";
         }
         else {
             setInterval(sumirMensagem, 5000)
@@ -134,12 +117,8 @@
                     console.log(JSON.stringify(json));
                     sessionStorage.EMAIL_USUARIO = json.email;
                     sessionStorage.NOME_USUARIO = json.nome;
-                    sessionStorage.IDADE_USUARIO = json.idade;
                     sessionStorage.ID_USUARIO = json.id;
-                    setTimeout(function () {
-                        window.location = "quiz.html";
-                    }, 2000); // apenas para exibir o loading
-
+                    autenticarLogin();
                 });
 
             } else {
@@ -158,16 +137,30 @@
 
         return false;
     }
+    function autenticarLogin() {
+        var emailVar = email_input.value;
+         var senhaVar = senha_input.value;
+        fetch(`/usuarios/autenticarLogin/${emailVar}/${senhaVar}`, {
+            method: "GET",
+        }).then((function (resposta) {
+            resposta.json().then((login) => {
+                login.forEach((login) => {
+                    if(login.Validacao == 'Login realizado com sucesso'){
+                        setTimeout(() => {
+                            window.location ="quiz.html"
+                        }, 2000);
+                    }else {
+                        cardErro1.style.display = "block"
+                        mensagem_erro1.innerHTML = "Login ou senha incorretos";
+                    }
+                });
+            });
+        })
+        )
+    }
 
     function sumirMensagem() {
-        cardErro.style.display = "none"
+        cardErro1.style.display = "none"
     }
-    verificarTema();
-    function verificarTema() {
-    var tema = sessionStorage.TEMA_USUARIO;
-    if (tema == true) {
-        var html = document.querySelector('html')
-        html.classList.toggle('dark-mode')  
-    }
-}
+
 </script>

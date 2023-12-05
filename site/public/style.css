@@ -280,7 +280,6 @@ label:after {
   margin-left: 10vw;
   color: var(--cor-letra);
   font-size: 44px;
-  font-style: normal;
   font-weight: 600;
   margin-top: 35vh;
   animation: surgirDaEsquerda 3s ease-out;
@@ -294,9 +293,7 @@ label:after {
   -webkit-text-fill-color: transparent;
   opacity: 0.9;
   font-size: 78px;
-  font-style: normal;
   font-weight: 900;
-  line-height: normal;
   margin-top: 5vh;
   margin-left: 15vw;
   margin-bottom: 0;
@@ -530,13 +527,19 @@ label:after {
   }
 
   & .redes {
-    background-color: orange;
     width: 250px;
-    height: 100px;
+    height: 50px;
+    gap: 10px;
+    display: flex;
+    margin-top: 25px;
+    justify-content: center;
+    flex-direction: row;
+    & .rede {
+      width: 35px;
+    }
   }
 
   & .versao {
-    background-color: yellow;
     width: 400px;
     height: 100px;
   }
@@ -648,5 +651,52 @@ label:after {
     position: absolute;
     right: 40px;
     bottom: 190px;
+  }
+}
+
+.sobre {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--cor-fundo);
+  height: 100vh;
+  width: 100%;
+  transition: .6s;
+  & .cardSobre {
+    position: relative;
+    background-color: var(--cor-card);
+    width: 65%;
+    height: 60vh;
+    border-radius: 50px;
+    padding: 30px;
+    transition: .6s;
+    & h1 {
+      background: var(--home--body-h1);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      opacity: 0.9;
+      font-size: 58px;
+      font-weight: 900;
+      transition: all .6s ease;
+      transition: .6s;
+    }
+    & h2 {
+      color: var(--cor-letra);
+      transition: .6s;
+    }
+    & p {
+      font-size: 18px;
+      margin-bottom: 40px;
+      color: var(--cor-letra);
+      transition: .6s;
+    }
+  }
+  & img {
+    position: absolute;
+    width: 180px;
+    right: -0px;
+    bottom: -70px;
+    border-bottom-right-radius: 100px;
   }
 }

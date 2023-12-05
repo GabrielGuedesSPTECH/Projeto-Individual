@@ -440,3 +440,17 @@ label:after {
     transition: 1s;
     animation: surgirDaEsquerda 1s ease-in-out;
 }
+.card_erro1 {
+    display: none;
+    background-color: #fff;
+    border: solid 2px;
+    color: black;
+    width: 15vw;
+    top: 100px;
+    right: -150px;
+    position: absolute;
+    border-radius: 15px;
+    padding: 10px;
+    transition: 1s;
+    animation: surgirDaEsquerda 1s ease-in-out;
+}

@@ -2,14 +2,13 @@
 function validarSessao() {
     var email = sessionStorage.EMAIL_USUARIO;
     var nome = sessionStorage.NOME_USUARIO;
-    var idade = sessionStorage.IDADE_USUARIO;
     var id = sessionStorage.ID_USUARIO; 
     
 
-    if (email != null && nome != null && idade != null && id != null) {
+    if (email != null && nome != null && id != null) {
         p_usuario.innerHTML = nome;
     } else {
-        window.location = "../login.html";
+        window.location = "login.html";
     }
 }
 

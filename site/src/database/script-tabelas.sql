@@ -13,12 +13,17 @@ USE mementoMori;
 CREATE TABLE usuario (
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	nome VARCHAR(50),
-	email VARCHAR(50),
-	senha VARCHAR(50),
 	dtNasc date,
     fkEstoico int
 );
 
+create table login (
+	fkUsuario int primary key auto_increment,
+   email VARCHAR(50) unique,
+	senha VARCHAR(200),
+    constraint fkUsuarioLogin
+    foreign key (fkUsuario) references usuario(id));
+    
 create table estoicos (
 	id int primary key auto_increment,
     nome varchar(50),
@@ -70,7 +75,17 @@ o filósofo buscava a razão e a harmonia entre o que aprendia e como agia.
  Filosofia e vida assim eram uma coisa só, como deve ser, e ele a seguiu com seus erros e acertos,
  mas de toda forma tornando-se referências e autores mais fortes do Estoicismo. ');
  
- 
+ create table pontuacao (
+	id int auto_increment,
+	pontuacao int,
+	tempo varchar(10),
+    dtTentativa datetime,
+	fkUsuario int,
+    constraint fkUsuario
+    foreign key (fkUsuario) references
+    usuario(id),
+    PRIMARY KEY(id,fkUsuario)
+);
  
 select * from estoicos;
 
@@ -92,17 +107,7 @@ select * from pontuacao;
 
 select * from usuario;
 
-create table pontuacao (
-	id int auto_increment,
-	pontuacao int,
-	tempo varchar(10),
-    dtTentativa datetime,
-	fkUsuario int,
-    constraint fkUsuario
-    foreign key (fkUsuario) references
-    usuario(id),
-    PRIMARY KEY(id,fkUsuario)
-);
+
 create view vw_analyticsEstoicos 
 as
 select count(fkEstoico) Seneca,
@@ -123,3 +128,31 @@ select
         from pontuacao
         where fkUsuario = 5
         order by id desc limit 7;
+        
+DELIMITER $  
+ CREATE FUNCTION fun_valida_usuario
+	(p_email VARCHAR(50), p_senha VARCHAR(260) ) 
+RETURNS INT(1)  
+DETERMINISTIC
+ BEGIN  
+ DECLARE l_ret INT(1) DEFAULT 0;  
+     SET l_ret = IFNULL((SELECT DISTINCT 1 FROM login WHERE email = p_email  
+                       AND senha = SHA2(p_senha,256)),0);                           
+ RETURN l_ret;  
+ END$  
+ DELIMITER ;  
+ SELECT fun_valida_usuario('j@j.com','123123') as Validou;
+ SELECT fun_valida_usuario('fefe','fe@123') as Validou;
+  
+ INSERT INTO login(fkUsuario, email, senha) VALUES
+	(1,'fefe', sha2('fe@123', 256));
+
+SELECT CASE 
+	WHEN fun_valida_usuario('j@j.com','123123') = 1 
+    THEN 'Login realizado com sucesso'
+    ELSE 'Login ou senha incorreta' END Validacao;
+    
+select * from login;
+CREATE USER 'seneca'@'localhost' IDENTIFIED BY 'virtude';
+grant all privileges on mementoMori.* to 'seneca'@'localhost';
+flush privileges;
